@@ -1,20 +1,22 @@
 import { useState } from "react";
 import { firestore } from "../firebase.config";
-import { doc, setDoc, addDoc, collection } from "firebase/firestore";
+import { doc, setDoc, addDoc, collection, updateDoc } from "firebase/firestore";
 
 const AddItem = () => {
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState("");
-  const collectionRef = collection(firestore, "inventory");
+  const [password, setPassword] = useState("");
+  // const collectionRef = collection(firestore, "inventory");
 
   const addItem = async () => {
     try {
-      const docRef = doc(firestore, "inventory"); // Create a reference to the document
+      const inventoryCollectionRef = collection(firestore, "inventory");
+      const itemDocRef = doc(inventoryCollectionRef, name); // Create a reference with the specified document ID (name)
       const docData = {
-        name: name,
         quantity: quantity,
+        password: password,
       };
-      await setDoc(docRef, docData); // Add data to the document
+      await addDoc(itemDocRef, docData); // Use setDoc to add data with the specified document ID
       console.log("Item added successfully!");
     } catch (error) {
       console.error("Error adding item: ", error);
@@ -32,11 +34,19 @@ const AddItem = () => {
       />
       <input
         className = "text-black"
+        type="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Password"
+      />
+      <input
+        className = "text-black"
         type="number"
         value={quantity}
         onChange={(e) => setQuantity(e.target.value)}
         placeholder="Quantity"
       />
+
       <button onClick={addItem}>Add Item</button>
     </div>
   );
