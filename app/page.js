@@ -4,8 +4,9 @@ import Button from '@mui/material/Button';
 import './globals.css';
 import { firestore } from '../firebase.config';
 import AddItem from '../components/addItem';
-import { Box, Modal, Stack, TextField, Typography } from "@mui/material";
+import { Autocomplete, Box, Modal, Stack, TextField, Typography } from "@mui/material";
 import { setDoc, getDoc, deleteDoc, doc, updateDoc, query, collection, getDocs } from 'firebase/firestore';
+
 
 
 export default function Home() {
@@ -78,6 +79,13 @@ export default function Home() {
         gap={2}
         sx={{ p: 2, border: '1px dashed white'}}
       >
+        {/* <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={inventory}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="Search Inventory" />}
+        /> */}
         <Modal open ={open} onClose={handleClose}>
           <Box
           position="absolute"
@@ -93,6 +101,7 @@ export default function Home() {
           gap={3}
           sx={{ transform: 'translate(-50%, -50%)' }}
           >
+
             <Typography variant="h6" className="text-black">Add Item</Typography>
             <Stack width="100%" direction="row" spacing={2}>
               <TextField
